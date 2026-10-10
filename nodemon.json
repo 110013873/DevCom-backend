@@ -1,0 +1,6 @@
+{
+  "watch": ["dist"],
+  "ext": "js",
+  "ignore": ["dist/migration/**"],
+  "delay": 1000
+}

@@ -1,0 +1,3 @@
+# 保留目录本身。rsa 密钥对（private.key / public.pem）不入库，
+# 但构建脚本 `cp -r src/resource dist` 依赖该目录存在，
+# 因此这里放一个占位文件，避免全新克隆时构建失败。
