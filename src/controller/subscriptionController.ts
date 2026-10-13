@@ -60,7 +60,7 @@ export class SubscriptionController {
 
     // 邮件发送失败不回滚记录：用户可以稍后重试，重试会换发新令牌
     const links = buildSubscriptionLinks(token);
-    await sendEmail([email], '确认订阅：通明湖 RISC-V AI 开发者社区', confirmEmailHtml(links));
+    await sendEmail([email], '确认订阅：通明湖 TileLang for RISC-V 社区', confirmEmailHtml(links));
 
     return { sent: true, email };
   }

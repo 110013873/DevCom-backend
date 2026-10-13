@@ -105,7 +105,7 @@ export class AdminNewsController {
         coverImage: body.coverImage ?? null,
         content: body.content ?? null,
         contentHtml: body.contentHtml,
-        category: body.category ?? 'news',
+        category: body.category ?? 'industry-news',
         author: body.author ?? null,
         // 发布时间只在「此刻起就发布」时兜底；草稿留空，发布时再补
         publishedAt: body.publishedAt ? new Date(body.publishedAt) : status === 'published' ? new Date() : null,

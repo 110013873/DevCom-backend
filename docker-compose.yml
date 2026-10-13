@@ -1,0 +1,27 @@
+name: devcom
+
+services:
+  db:
+    image: postgres:18
+    container_name: devcom-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: devcom
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      # postgres:18+ 要求挂在 /var/lib/postgresql，数据实际落在其下的版本化子目录。
+      # 挂到旧版的 /var/lib/postgresql/data 会导致容器拒绝启动。
+      - devcom-pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d devcom"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  devcom-pgdata:

@@ -43,7 +43,7 @@ export async function findByToken(token: string): Promise<Subscription | null> {
  */
 export function confirmEmailHtml(links: SubscriptionLinks): string {
   return [
-    '<p>感谢订阅通明湖 RISC-V AI 开发者社区动态。</p>',
+    '<p>感谢订阅通明湖 TileLang for RISC-V 社区动态。</p>',
     `<p>请点击下面的链接完成确认：</p>`,
     `<p><a href="${links.confirmUrl}">确认订阅</a></p>`,
     `<p>如果这不是您本人的操作，可忽略本邮件；或点击 <a href="${links.unsubscribeUrl}">退订</a>。</p>`,

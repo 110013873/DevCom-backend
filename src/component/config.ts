@@ -85,7 +85,7 @@ export const config = {
       user: optional('SMTP_USER'),
       pass: optional('SMTP_PASS'),
     },
-    from: optional('EMAIL_FROM', 'RISC-V AI 开发者社区 <noreply@tlaic.ac.cn>'),
+    from: optional('EMAIL_FROM', 'TileLang for RISC-V 社区 <noreply@tlaic.ac.cn>'),
   },
   site: {
     /** 前台站点地址，用于生成确认/退订链接 */

@@ -1,4 +1,4 @@
-# DevCom Backend — RISC-V AI 开发者社区后端
+# DevCom Backend — TileLang for RISC-V 社区后端
 
 Express + TypeScript + routing-controllers + TypeORM(PostgreSQL)，与 `TLAIC-Portal/portal-backend` 同架构，但**独立账号体系、独立数据库**，不与该官网互通。
 

@@ -3,15 +3,19 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, PrimaryGener
 export type ResourceStatus = 'draft' | 'published' | 'archived';
 
 /** 资源形态，决定详情页突出哪种入门指引 */
-export type ResourceCategory = 'model' | 'dataset' | 'toolchain' | 'board' | 'library' | 'benchmark';
+export type ResourceCategory =
+  | 'isa-extension'
+  | 'compiler-toolchain'
+  | 'model-operator-library'
+  | 'simulation-platform'
+  | 'technical-docs';
 
 export const RESOURCE_CATEGORIES: readonly ResourceCategory[] = [
-  'model',
-  'dataset',
-  'toolchain',
-  'board',
-  'library',
-  'benchmark',
+  'isa-extension',
+  'compiler-toolchain',
+  'model-operator-library',
+  'simulation-platform',
+  'technical-docs',
 ];
 
 /**
@@ -38,7 +42,7 @@ export class Resource {
   coverImage: string | null;
 
   @Index('idx_resources_category')
-  @Column({ type: 'varchar', length: 30, nullable: false, default: 'library' })
+  @Column({ type: 'varchar', length: 30, nullable: false, default: 'model-operator-library' })
   category: ResourceCategory;
 
   /** 所属方 / 贡献者署名，与登录账号解耦 */

@@ -8,12 +8,11 @@ import { SystemConfig } from '../../entity/systemconfig';
  * 两处各维护一份，迟早出现「后台选得到、前台筛不出」的漂移。
  */
 export const DEFAULT_NEWS_CATEGORIES = [
-  { value: 'news', label: '社区动态' },
-  { value: 'announcement', label: '公告' },
-  { value: 'technology', label: '技术解读' },
-  { value: 'ecosystem', label: '生态进展' },
-  { value: 'event', label: '活动' },
-  { value: 'industry', label: '行业观察' },
+  { value: 'industry-news', label: '行业资讯' },
+  { value: 'tech-frontier', label: '技术前沿' },
+  { value: 'company-news', label: '企业动态' },
+  { value: 'academic-research', label: '学术研究' },
+  { value: 'product-case', label: '产品案例' },
 ];
 
 /**
@@ -28,10 +27,11 @@ export const DEFAULT_SYSTEM_CONFIGS: Array<Pick<SystemConfig, 'key' | 'value' | 
   {
     key: 'site_brand',
     value: {
-      name: 'RISC-V AI 开发者社区',
-      shortName: 'RISC-V AI 社区',
-      slogan: '开放协作，共建 RISC-V 与 AI 的开源生态',
-      logoUrl: '',
+      name: 'TileLang for RISC-V 社区',
+      shortName: 'TileLang AI 社区',
+      slogan: '开放协作，共建 TileLang for RISC-V 的开源生态',
+      // 页头是深蓝实底，这份 logo 图形为白色，放上去正合适
+      logoUrl: '/logo.svg',
     },
     description: '站点品牌信息（名称、标语、Logo）',
   },

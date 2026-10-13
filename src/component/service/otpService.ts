@@ -58,7 +58,7 @@ export async function issueOtp(identifier: string, channel: OtpChannel, purpose:
 
   const sent = await sendEmail(
     [identifier],
-    '【RISC-V AI 开发者社区】验证码',
+    '【TileLang for RISC-V 社区】验证码',
     `<p>您的验证码是 <strong style="font-size:20px">${code}</strong>，${OTP_TTL_SECONDS / 60} 分钟内有效。</p><p>如非本人操作，请忽略本邮件。</p>`
   );
   if (sent) {

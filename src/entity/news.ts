@@ -39,7 +39,7 @@ export class News {
   contentHtml: string;
 
   @Index('idx_news_category')
-  @Column({ type: 'varchar', length: 40, nullable: false, default: 'news' })
+  @Column({ type: 'varchar', length: 40, nullable: false, default: 'industry-news' })
   category: string;
 
   /** 署名字符串，与登录账号解耦：可署「中心」「编辑部」等 */

@@ -129,7 +129,7 @@ export class AdminResourceController {
         // summary / overview 在实体上是 NOT NULL DEFAULT ''，不是可空列
         summary: body.summary ?? '',
         coverImage: body.coverImage ?? null,
-        category: body.category ?? 'toolchain',
+        category: body.category ?? 'model-operator-library',
         author: body.author ?? null,
         isRecommended: body.isRecommended ?? false,
         isFree: body.isFree ?? true,
