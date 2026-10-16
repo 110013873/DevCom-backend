@@ -7,11 +7,7 @@ coverage
 # 密钥与本地配置：绝不进镜像。密钥改由容器运行时以环境变量注入
 # （见 config.ts 的 readResource），把私钥烤进镜像等于把签发能力
 # 随镜像分发到每一台拉过它的机器。
-.env
-.env.*
 !.env.example
-src/resource/private.key
-src/resource/public.pem
 
 # 本地存储的临时目录
 var/
