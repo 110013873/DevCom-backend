@@ -54,32 +54,44 @@ export function buildStorageKey(purpose: string, originalName: string): string {
 }
 
 /**
- * 保存文件。配置了 OSS 则上传 OSS，否则落本地磁盘并由 /static 目录暴露。
+ * 从磁盘临时文件保存（大文件上传走这里，避免把文件整体读进内存）。
+ * - OSS 模式：传文件路径，走 aliyunOSS 既有分片上传（>100MB 分片）；
+ * - 本地模式：把临时文件移到目标目录，不二次读入内存。
  */
-export async function storeFile(
-  buffer: Buffer,
+export async function storeFileFromPath(
+  filePath: string,
   originalName: string,
   purpose: string,
   allowedPurposes: string[]
 ): Promise<StoredFile> {
   assertAllowed(originalName, allowedPurposes);
-  assertSize(buffer.length);
+  const size = (await fs.promises.stat(filePath)).size;
+  assertSize(size);
 
   const storageKey = buildStorageKey(purpose, originalName);
 
   if (config.cache.mode === 'oss' && isOssConfigured()) {
-    const url = await uploadToAliyunOSS(storageKey, buffer, 'buffer');
+    const url = await uploadToAliyunOSS(storageKey, filePath, 'file');
     return { storageKey, url };
   }
 
   const directory = directoryOf(purpose);
   const absolutePath = path.join(rootDirOf(directory), storageKey);
-  fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
-  fs.writeFileSync(absolutePath, buffer);
+  await fs.promises.mkdir(path.dirname(absolutePath), { recursive: true });
+  try {
+    await fs.promises.rename(filePath, absolutePath);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'EXDEV') throw error;
+    // 临时目录和目标目录可能挂载在不同磁盘，copyFile 不把整文件读入内存。
+    try {
+      await fs.promises.copyFile(filePath, absolutePath);
+    } catch (copyError) {
+      await fs.promises.unlink(absolutePath).catch(() => undefined);
+      throw copyError;
+    }
+    // 原临时文件由上传控制器在 finally 中统一清理。
+  }
 
-  // URL 用「目录名」而非 purpose 拼接：`/static/<目录名>` 才是 http.ts 的挂载点。
-  // storageKey 首段保持 purpose 不变（OSS 对象键沿用既有形状，不回改）；
-  // 本地落盘因此形如 `<docPath>/document/<日期>/<uuid>`，URL 需完整带上该段。
   return { storageKey, url: `/static/${directory}/${storageKey}` };
 }
 

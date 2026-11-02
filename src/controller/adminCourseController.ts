@@ -398,8 +398,12 @@ export class AdminCourseController {
     lesson.dayId = body.dayId ?? null;
     lesson.title = body.title;
     lesson.type = body.type ?? lesson.type;
-    lesson.content = body.content ?? '';
-    lesson.externalUrl = body.externalUrl ?? null;
+    // 显式回填并提交 content：编辑已存在的课时必须把原正文原样带回，
+    // 不能在这里用 `body.content ?? ''` 把没提交的正文清成空串
+    lesson.content = body.content ?? lesson.content;
+    // externalUrl 三态语义（与 content 保留原值一致）：
+    // 有效值 → 写入；null → 清空；undefined（未携带）→ 保留原值
+    lesson.externalUrl = body.externalUrl !== undefined ? body.externalUrl : lesson.externalUrl;
     lesson.isPaid = body.isPaid ?? lesson.isPaid;
     lesson.duration = body.duration ?? lesson.duration;
     lesson.sortOrder = body.sortOrder ?? lesson.sortOrder;
