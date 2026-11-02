@@ -12,16 +12,16 @@ export class UnifyLessonContent1793577600000 implements MigrationInterface {
        FROM "service"."lessons" WHERE type IN ('video', 'doc')`
     );
 
-    // 先完整检查再更新，避免缺失媒体地址时静默改变课时类型。
     const updates = rows.map(row => {
-      const link = row.externalUrl;
+      const content = row.content ?? '';
+      const link = row.externalUrl?.trim();
+      // 兼容缺少媒体地址的历史课时：保留正文，不阻断迁移及服务启动。
       if (!link) {
-        throw new Error(`课时 ${row.id} (${row.type}) 缺少媒体地址，请补齐后重试迁移`);
+        return { id: row.id, type: row.type, content };
       }
       // URL 中的空格、括号等不能破坏 Markdown 链接；保留原 URL 列不变。
       const url = link.replace(/[\s()<>\\]/g, char => char === '(' ? '%28' : char === ')' ? '%29' : encodeURIComponent(char));
       const media = row.type === 'video' ? `![video](${url})` : `[文档](${url})`;
-      const content = row.content ?? '';
       return {
         id: row.id,
         type: row.type,
